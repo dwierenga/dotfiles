@@ -1,0 +1,32 @@
+[user]
+        name = Dan Wierenga
+	email = dwierenga@gmail.com
+[alias]
+        alias = !git config -l | grep alias| cut -c 7-
+        hist = log --pretty=format:%C(yellow)%h\\ %ad%Cred%d\\ %Creset%s%Cblue\\ [%cn] --decorate --date=short -n10
+        logtree = log --graph --oneline --decorate --all
+        ls = log --pretty=format:\"%C(yellow)%h%Cred%d\\\\ %Creset%s%Cblue\\\\ [%cn]\" --decorate
+        ll = log --pretty=format:\"%C(yellow)%h%Cred%d\\\\ %Creset%s%Cblue\\\\ [%cn]\" --decorate --numstat
+        filelog = log -u
+        fl = log -u
+        dr = "!f() { git diff \"$1\"^..\"$1\"; }; f"
+        difflast = diff --cached HEAD^
+        dl = diff --cached HEAD^
+        st = status
+        ss = status -s
+        wc = whatchanged
+[merge "ours"]
+        driver = true
+[push]
+	default = simple
+
+[color]
+    status = auto
+
+[color "status"]
+    added = green
+    changed = bold green
+    untracked = magenta
+    header = cyan bold
+[branch]
+	autosetupmerge = always

@@ -1,0 +1,26 @@
+## http://ss64.com/bash/syntax-inputrc.html
+
+## use vi-style keys
+set editing-mode vi
+
+set bell-style visible
+set colored-completion-prefix on
+
+## ignore case when completing
+set completion-ignore-case on
+
+## add an asterisk to history lines that have been modified 
+## set mark-modified-lines on
+
+## enable smart completion in the middle of words. i.e. complete to "Makefile" instead of "Makefilefile"  
+set skip-completed-text on
+
+## don't ring the bell on tab-completion, just show the matches immediately
+set show-all-if-ambiguous on
+
+## show filetype when listing completions
+set visible-stats on
+
+Control-k: history-search-backward
+Control-j: history-search-forward
+Control-n: yank-last-arg

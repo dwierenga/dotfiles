@@ -1,0 +1,90 @@
+######
+# vim: ts=4 sw=4 ht=4 et nu nowrap
+
+set -o vi
+set keymap vi
+
+stty erase ^\?
+stty werase ^\u
+
+## check the window size after each program (vim etc.) terminates
+## so the line-wrapping is correct if the window was resized
+## while bash wasn't the active program
+shopt -s checkwinsize
+
+
+
+if [ -d ~/bin ]; then
+  PATH=$PATH:~/bin
+fi
+
+EDITOR=$(which vim)
+LSCOLORS='Dxfxcxdxbxegedabagacad' 
+PAGER='less -FRXSWIm'
+reset='\[\033[0m\]'
+underline='\[\033[4m\]'
+PS1="\n${underline}[\t] \u@\H \w$reset \n$ "
+mkdir -p ~/.env
+chmod 700 ~/.env
+SCREENDIR=~/.env
+TZ='America/Los_Angeles'
+
+export EDITOR LSCOLORS PAGER PATH PS1 SCREENDIR TZ
+
+if [[ $(uname) == "Linux" ]]; then
+    if [[ ! -x '/usr/bin/screen' ]]; then
+        os_major_version=$(cat /etc/redhat-release | perl -p -e 's/[A-za-z ()]*//g' < /etc/redhat-release | cut -d '.' -f 1)
+        alias screen=~/bin/screen-centos${os_major_version}
+    fi
+    alias ls='/bin/ls -lhF --color=auto'
+    alias ll="/bin/ls -lAhF --color=auto"
+    alias mounts='df -P -t nfs -h | sed "s/Mounted on/Mounted_on/" | column -t'
+elif [[ $(uname) == "Darwin" ]]; then
+    alias ls='/bin/ls -lhFG'
+    alias ll='/bin/ls -lAhFG'
+    PATH=$PATH:/Users/dwierenga/oracle/instantclient_12_1
+    TNS_ADMIN=/Users/dwierenga/oracle/;  export TNS_ADMIN
+fi
+
+########  MISCELLANEOUS ####################
+alias back='cd $OLDPWD'
+alias beep='echo '
+alias cls='clear'
+alias cu='cd ..'
+alias diff='diff -du'
+alias env="env | sort"
+alias grep='grep -E'
+alias j="jobs"
+[[ -x ~/bin/ack ]] && alias pack='~/bin/ack --passthru'
+alias proctree='/bin/ps -ew --forest -Oc'
+alias quit='exit'
+
+
+# print the header (the first line of input)
+# and then run the specified command on the body (the rest of the input)
+# use it in a pipeline, e.g. ps | body grep somepattern
+# from http://unix.stackexchange.com/questions/11856/sort-but-keep-header-line-at-the-top/11859#11859
+function body {
+    IFS= read -r header
+    printf '%s\n' "$header"
+    "$@"
+}
+
+
+username="$USER"
+if [[ "$LOGNAME" -ne "$USER" ]]; then
+    username="$LOGNAME"
+fi 
+if [[ "$SUDO_USER" -ne "$USER" ]]; then
+    username="$SUDO_USER"
+fi 
+for d in Users home home2; do
+    for f in bash_completion.bashrc prompt.bashrc git.aliases; do
+    if [ -r "/$d/$username/.env/$f" ]; then
+            source "/$d/$username/.env/$f"
+    fi
+    done
+    if [ -r "/$d/${username}/.env/inputrc" ]; then
+        bind -f "/$d/${username}/.env/inputrc"
+    fi
+done
