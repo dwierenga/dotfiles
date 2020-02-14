@@ -81,7 +81,9 @@ fi
 if [[ "$SUDO_USER" -ne "$USER" ]]; then
     username="$SUDO_USER"
 fi 
+
 [[ -r inputrc ]]  && bind -f inputrc
+[[ -r prompt ]]  && . prompt
 
 
 
