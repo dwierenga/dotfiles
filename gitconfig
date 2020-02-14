@@ -3,17 +3,17 @@
 	email = dwierenga@gmail.com
 [alias]
         alias = !git config -l | grep alias| cut -c 7-
-        hist = log --pretty=format:%C(yellow)%h\\ %ad%Cred%d\\ %Creset%s%Cblue\\ [%cn] --decorate --date=short -n10
-        logtree = log --graph --oneline --decorate --all
-        ls = log --pretty=format:\"%C(yellow)%h%Cred%d\\\\ %Creset%s%Cblue\\\\ [%cn]\" --decorate
-        ll = log --pretty=format:\"%C(yellow)%h%Cred%d\\\\ %Creset%s%Cblue\\\\ [%cn]\" --decorate --numstat
+        difflast = diff --cached HEAD^
         filelog = log -u
         fl = log -u
-        dr = "!f() { git diff \"$1\"^..\"$1\"; }; f"
-        difflast = diff --cached HEAD^
-        dl = diff --cached HEAD^
-        st = status
+        go = !launch $(git url)
+        hist = log --oneline --decorate --all --graph
+        ls = log --pretty=format:\"%C(yellow)%h%Cred%d\\\\ %Creset%s%Cblue\\\\ [%cn]\" --decorate
+        pick = add -p
+        root = rev-parse --show-toplevel
         ss = status -s
+        st = status
+        tree = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
         wc = whatchanged
 [merge "ours"]
         driver = true
@@ -28,5 +28,13 @@
     changed = bold green
     untracked = magenta
     header = cyan bold
-[branch]
-	autosetupmerge = always
+
+[diff]
+	tool = vimdiff
+	noprefix = true
+[pull]
+	rebase = true
+[rebase]
+	autoStash = true
+[push]
+	default = simple
