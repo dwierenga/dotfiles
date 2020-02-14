@@ -1,5 +1,6 @@
 ######
 # vim: ts=4 sw=4 ht=4 et nu nowrap
+#shellcheck disable=SC1090
 
 set -o vi
 set keymap vi
@@ -19,7 +20,7 @@ if [ -d ~/bin ]; then
   PATH=$PATH:~/bin
 fi
 
-EDITOR=$(which vim)
+EDITOR=$(command -v vim)
 LSCOLORS='Dxfxcxdxbxegedabagacad' 
 PAGER='less -FRXSWIm'
 reset=$(tput sgr0)
@@ -52,7 +53,7 @@ alias diff='diff -du'
 alias env="env | sort"
 alias grep='grep -E'
 alias j="jobs"
-[[ -x ~/bin/ack ]] && alias pack='~/bin/ack --passthru'
+[[ -x $(command -v ack) ]] && alias pack='ack --passthru'
 alias proctree='/bin/ps -ew --forest -Oc'
 alias rebash='source ~/.bash_login'
 alias vols='lsblk -i -o kname,mountpoint,fstype,size,maj:min,name,state,rm,rota,ro,type,label,model,serial'
@@ -72,6 +73,7 @@ function body {
 ff() {
     find * -type f -name "*${1}*"
 }
+
 username="$USER"
 if [[ "$LOGNAME" -ne "$USER" ]]; then
     username="$LOGNAME"
@@ -79,13 +81,23 @@ fi
 if [[ "$SUDO_USER" -ne "$USER" ]]; then
     username="$SUDO_USER"
 fi 
-for homedirs in Users home home2; do
-    for home_env_file in bash_completion.bashrc git.aliases maven_bash_completion.bash prompt.bashrc; do
-    if [ -f "/${homedirs}/$username/.env/${home_env_file}" ]; then
-            . "/${homedirs}/$username/.env/${home_env_file}"
+[[ -r inputrc ]]  && bind -f inputrc
+
+
+
+if [ "$(command -v brew > /dev/null 2>&1; echo $?)" -eq 0 ] ; then
+    if [ -f "$(brew --prefix)/etc/bash_completion" ] ; then
+        . "$(brew --prefix)/etc/bash_completion"
     fi
-    done
-    if [ -r "/$homedirs/${username}/.env/inputrc" ]; then
-        bind -f "/$homedirs/${username}/.env/inputrc"
+fi
+
+# ~/.localconfig/ is always last in case I want to override anything
+for dwierenga_completion_dir in /etc/bash_completion.d /usr/local/etc/bash_completion.d  ~/.bash_completion.d  ~/.localconfig; do
+    if [ -d "${dwierenga_completion_dir}" ]; then
+	echo "Reading files in ${dwierenga_completion_dir}" 
+        for f in "$dwierenga_completion_dir"/* ; do
+	    echo "sourcing $f"
+            . "$f"
+        done
     fi
 done
