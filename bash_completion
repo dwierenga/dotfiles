@@ -1,0 +1,13 @@
+if [ `which brew > /dev/null 2>&1; echo $?` -eq 0 ] ; then
+    if [ -f $(brew --prefix)/etc/bash_completion ] ; then
+        . $(brew --prefix)/etc/bash_completion
+    fi
+fi
+for d in {~/.env,/etc,/usr/local/etc}/bash_completion.d ; do
+    if [ -d $d ]; then
+        for f in $d/* ; do
+            . $f
+        done
+    fi
+done
+

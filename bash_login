@@ -13,6 +13,7 @@ stty werase ^\u
 shopt -s checkwinsize
 
 
+HISTCONTROL=ignoredups:ignorespace
 
 if [ -d ~/bin ]; then
   PATH=$PATH:~/bin
@@ -21,28 +22,24 @@ fi
 EDITOR=$(which vim)
 LSCOLORS='Dxfxcxdxbxegedabagacad' 
 PAGER='less -FRXSWIm'
-reset='\[\033[0m\]'
-underline='\[\033[4m\]'
-PS1="\n${underline}[\t] \u@\H \w$reset \n$ "
+reset=$(tput sgr0)
+bold=$(tput bold)
+PS1='\[${bold}\t \u@\h \w${reset}\] \n$ '
 mkdir -p ~/.env
 chmod 700 ~/.env
-SCREENDIR=~/.env
 TZ='America/Los_Angeles'
 
-export EDITOR LSCOLORS PAGER PATH PS1 SCREENDIR TZ
+export EDITOR LSCOLORS HISTCONTROL PAGER PATH PS1 TZ
 
 if [[ $(uname) == "Linux" ]]; then
-    if [[ ! -x '/usr/bin/screen' ]]; then
-        os_major_version=$(cat /etc/redhat-release | perl -p -e 's/[A-za-z ()]*//g' < /etc/redhat-release | cut -d '.' -f 1)
-        alias screen=~/bin/screen-centos${os_major_version}
-    fi
     alias ls='/bin/ls -lhF --color=auto'
     alias ll="/bin/ls -lAhF --color=auto"
+    alias mode='stat -c "%a %n"'
     alias mounts='df -P -t nfs -h | sed "s/Mounted on/Mounted_on/" | column -t'
 elif [[ $(uname) == "Darwin" ]]; then
     alias ls='/bin/ls -lhFG'
     alias ll='/bin/ls -lAhFG'
-    PATH=$PATH:/Users/dwierenga/oracle/instantclient_12_1
+    PATH=$PATH:/Users/dwierenga/oracle/instantclient_18_1
     TNS_ADMIN=/Users/dwierenga/oracle/;  export TNS_ADMIN
 fi
 
@@ -57,6 +54,8 @@ alias grep='grep -E'
 alias j="jobs"
 [[ -x ~/bin/ack ]] && alias pack='~/bin/ack --passthru'
 alias proctree='/bin/ps -ew --forest -Oc'
+alias rebash='source ~/.bash_login'
+alias vols='lsblk -i -o kname,mountpoint,fstype,size,maj:min,name,state,rm,rota,ro,type,label,model,serial'
 alias quit='exit'
 
 
@@ -70,7 +69,9 @@ function body {
     "$@"
 }
 
-
+ff() {
+    find * -type f -name "*${1}*"
+}
 username="$USER"
 if [[ "$LOGNAME" -ne "$USER" ]]; then
     username="$LOGNAME"
@@ -78,13 +79,13 @@ fi
 if [[ "$SUDO_USER" -ne "$USER" ]]; then
     username="$SUDO_USER"
 fi 
-for d in Users home home2; do
-    for f in bash_completion.bashrc prompt.bashrc git.aliases; do
-    if [ -r "/$d/$username/.env/$f" ]; then
-            source "/$d/$username/.env/$f"
+for homedirs in Users home home2; do
+    for home_env_file in bash_completion.bashrc git.aliases maven_bash_completion.bash prompt.bashrc; do
+    if [ -f "/${homedirs}/$username/.env/${home_env_file}" ]; then
+            . "/${homedirs}/$username/.env/${home_env_file}"
     fi
     done
-    if [ -r "/$d/${username}/.env/inputrc" ]; then
-        bind -f "/$d/${username}/.env/inputrc"
+    if [ -r "/$homedirs/${username}/.env/inputrc" ]; then
+        bind -f "/$homedirs/${username}/.env/inputrc"
     fi
 done
