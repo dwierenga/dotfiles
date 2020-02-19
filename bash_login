@@ -82,12 +82,6 @@ if [[ "$SUDO_USER" -ne "$USER" ]]; then
     username="$SUDO_USER"
 fi 
 
-basedir="$(dirname $(readlink -n ${BASH_SOURCE[0]}))"
-[[ -r "${basedir}/inputrc" ]]  && bind -f "${basedir}/inputrc"
-[[ -r "${basedir}/prompt" ]]  && . "${basedir}/prompt"
-
-
-
 if [ "$(command -v brew > /dev/null 2>&1; echo $?)" -eq 0 ] ; then
     if [ -f "$(brew --prefix)/etc/bash_completion" ] ; then
         . "$(brew --prefix)/etc/bash_completion"
