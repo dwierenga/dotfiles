@@ -82,8 +82,9 @@ if [[ "$SUDO_USER" -ne "$USER" ]]; then
     username="$SUDO_USER"
 fi 
 
-[[ -r inputrc ]]  && bind -f inputrc
-[[ -r prompt ]]  && . prompt
+basedir="$(dirname $(readlink -n ${BASH_SOURCE[0]}))"
+[[ -r "${basedir}/inputrc" ]]  && bind -f "${basedir}/inputrc"
+[[ -r "${basedir}/prompt" ]]  && . "${basedir}/prompt"
 
 
 
