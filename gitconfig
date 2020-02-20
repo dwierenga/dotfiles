@@ -5,6 +5,7 @@
     path = ~/git/.gitconfig
 [alias]
         alias = !git config -l | grep alias| cut -c 7-
+        dc = diff --cached
         difflast = diff --cached HEAD^
         filelog = log -u
         fl = log -u
