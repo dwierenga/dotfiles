@@ -1,6 +1,8 @@
 [user]
         name = Dan Wierenga
 	email = dwierenga@gmail.com
+[includeIf "gitdir:~/git/"]
+    path = ~/git/.gitconfig
 [alias]
         alias = !git config -l | grep alias| cut -c 7-
         difflast = diff --cached HEAD^
