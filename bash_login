@@ -13,6 +13,8 @@ stty werase ^\u
 ## while bash wasn't the active program
 shopt -s checkwinsize
 
+## add extended filename globbing
+shopt -s extglob
 
 HISTCONTROL=ignoredups:ignorespace
 
@@ -38,10 +40,12 @@ if [[ $(uname) == "Linux" ]]; then
     alias mode='stat -c "%a %n"'
     alias mounts='df -P -t nfs -h | sed "s/Mounted on/Mounted_on/" | column -t'
 elif [[ $(uname) == "Darwin" ]]; then
+    alias cpu-temp='osx-cpu-temp -F'   # brew install osx-cpu-temp
     alias ls='/bin/ls -lhFG'
     alias ll='/bin/ls -lAhFG'
-    PATH=$PATH:/Users/dwierenga/oracle/instantclient_18_1
+    PATH=$PATH:/Users/dwierenga/oracle/instantclient_19_3
     TNS_ADMIN=/Users/dwierenga/oracle/;  export TNS_ADMIN
+    export SQLPATH="/Users/dwierenga/oracle"
 fi
 
 ########  MISCELLANEOUS ####################
