@@ -95,9 +95,7 @@ fi
 # ~/.localconfig/ is always last in case I want to override anything
 for dwierenga_completion_dir in /etc/bash_completion.d /usr/local/etc/bash_completion.d  ~/.bash_completion.d  ~/.localconfig; do
     if [ -d "${dwierenga_completion_dir}" ]; then
-	#echo "Reading files in ${dwierenga_completion_dir}" 
-        for f in $( find $dwierenga_completion_dir/* -type f -not -name '*.md' 2> /dev/null ) ; do
-	    #echo "sourcing $f"
+        for f in $( find $dwierenga_completion_dir/* -type f -not -name '*.md'  -not -name 'inputrc' 2> /dev/null ) ; do
             . "$f"
         done
     fi
