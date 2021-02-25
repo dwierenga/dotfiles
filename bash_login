@@ -105,7 +105,7 @@ fi
 # ~/.localconfig/ is always last in case I want to override anything
 for dwierenga_completion_dir in /etc/bash_completion.d /usr/local/etc/bash_completion.d  ~/.bash_completion.d  ~/.localconfig; do
     if [ -d "${dwierenga_completion_dir}" ]; then
-        for f in $( find $dwierenga_completion_dir/* -type f -not -name '*.md'  -not -name 'inputrc' 2> /dev/null ) ; do
+        for f in $( find $dwierenga_completion_dir/* -maxdepth 1 -type f -not -name '*.md'  -not -name 'inputrc' 2> /dev/null ) ; do
             . "$f"
         done
     fi
@@ -116,3 +116,6 @@ done
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
 export SDKMAN_DIR="${HOME}/.sdkman"
 [[ -s "${HOME}/.sdkman/bin/sdkman-init.sh" ]] && source "${HOME}/.sdkman/bin/sdkman-init.sh"
+
+
+[[ -f ~/.prompt ]] && . ~/.prompt
