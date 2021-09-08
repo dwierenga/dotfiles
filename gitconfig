@@ -1,6 +1,6 @@
 [user]
         name = Dan Wierenga
-	email = dwierenga@gmail.com
+	email = dan.wierenga@cj.com
 [includeIf "gitdir:~/git/"]
     path = ~/git/.gitconfig
 [alias]
