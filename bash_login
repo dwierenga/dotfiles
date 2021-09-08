@@ -2,6 +2,7 @@
 # vim: ts=4 sw=4 ht=4 et nu nowrap
 #shellcheck disable=SC1090
 
+
 set -o vi
 set keymap vi
 
@@ -12,6 +13,9 @@ stty werase ^\u
 ## so the line-wrapping is correct if the window was resized
 ## while bash wasn't the active program
 shopt -s checkwinsize
+
+## don't offer to complete an empty line when I hit tab
+shopt -s no_empty_cmd_completion
 
 ## add extended filename globbing
 shopt -s extglob
