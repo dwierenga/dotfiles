@@ -56,6 +56,9 @@ elif [[ $(uname) == "Darwin" ]]; then
     export SQLPATH="${HOME}/oracle"
 fi
 
+# read the ssh-agent eval file, if it exists
+[[ -f /tmp/ssh-agent ]] && . /tmp/ssh-agent > /dev/null 
+
 ########  MISCELLANEOUS ####################
 alias back='cd $OLDPWD'
 alias beep='echo '
