@@ -20,6 +20,9 @@ shopt -s no_empty_cmd_completion
 ## add extended filename globbing
 shopt -s extglob
 
+## cd to a bare directory name
+shopt -s autocd
+
 HISTCONTROL=ignoredups:ignorespace
 
 if [ -d ~/bin ]; then
