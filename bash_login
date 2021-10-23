@@ -46,6 +46,7 @@ if [[ $(uname) == "Linux" ]]; then
     alias ll="/bin/ls -lAhF --color=auto"
     alias mode='stat -c "%a %n"'
     alias mounts='df -P -t nfs -h | sed "s/Mounted on/Mounted_on/" | column -t'
+    alias vols='lsblk -i -o kname,mountpoint,fstype,size,maj:min,name,state,rm,rota,ro,type,label,model,serial'
 elif [[ $(uname) == "Darwin" ]]; then
     alias cpu-temp='osx-cpu-temp -F'   # brew install osx-cpu-temp
     alias ls='/bin/ls -lhFG'
@@ -67,7 +68,6 @@ alias j="jobs"
 [[ -x $(command -v ack) ]] && alias pack='ack --passthru'
 alias proctree='/bin/ps -ew --forest -Oc'
 alias rebash='source ~/.bash_login'
-alias vols='lsblk -i -o kname,mountpoint,fstype,size,maj:min,name,state,rm,rota,ro,type,label,model,serial'
 alias quit='exit'
 
 
