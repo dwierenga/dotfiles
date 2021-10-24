@@ -96,12 +96,12 @@ if [[ "$SUDO_USER" -ne "$USER" ]]; then
     username="$SUDO_USER"
 fi 
 
+if [[ -d /opt/homebrew/bin ]] ; then
+    PATH=$PATH:/opt/homebrew/bin
+fi
 if [ "$(command -v brew > /dev/null 2>&1; echo $?)" -eq 0 ] ; then
     if [ -f "$(brew --prefix)/etc/bash_completion" ] ; then
         . "$(brew --prefix)/etc/bash_completion"
-    fi
-    if [[ -d /opt/homebrew/bin ]] ; then
-        PATH=$PATH:/opt/homebrew/bin
     fi
 fi
 
