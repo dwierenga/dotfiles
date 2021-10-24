@@ -57,7 +57,7 @@ elif [[ $(uname) == "Darwin" ]]; then
 fi
 
 # read the ssh-agent eval file, if it exists
-[[ -f /tmp/ssh-agent ]] && . /tmp/ssh-agent > /dev/null 
+[[ -f /tmp/ssh-agent ]] && . /tmp/ssh-agent > /dev/null
 
 ########  MISCELLANEOUS ####################
 alias back='cd $OLDPWD'
