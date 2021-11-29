@@ -51,7 +51,7 @@ elif [[ $(uname) == "Darwin" ]]; then
     alias cpu-temp='osx-cpu-temp -F'   # brew install osx-cpu-temp
     alias ls='/bin/ls -lhFG'
     alias ll='/bin/ls -lAhFG'
-    PATH=$PATH:${HOME}/oracle/instantclient_19_3
+    PATH=$PATH:${HOME}/oracle/instantclient_19_8
     TNS_ADMIN=${HOME}/oracle/;  export TNS_ADMIN
     export SQLPATH="${HOME}/oracle"
 fi
