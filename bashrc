@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 ######
 # vim: ts=4 sw=4 ht=4 et nu nowrap
-#shellcheck disable=SC1090
+#shellcheck disable=SC1090,SC2121,SC1001,SC1091
 
 
 set -o vi
@@ -86,7 +86,7 @@ function body {
 }
 
 ff() {
-    find * -type f -name "*${1}*"
+    find ./* -type f -name "*${1}*"
 }
 
 username="$USER"
@@ -96,6 +96,7 @@ fi
 if [[ "$SUDO_USER" -ne "$USER" ]]; then
     username="$SUDO_USER"
 fi 
+export username
 
 if [[ -d /opt/homebrew/bin ]] ; then
     PATH=$PATH:/opt/homebrew/bin
@@ -109,7 +110,8 @@ fi
 # ~/.localconfig/ is always last in case I want to override anything
 for dwierenga_completion_dir in /etc/bash_completion.d /usr/local/etc/bash_completion.d  ~/.bash_completion.d  ~/.localconfig; do
     if [ -d "${dwierenga_completion_dir}" ]; then
-        for f in $( find $dwierenga_completion_dir/* -maxdepth 1 -type f -not -name '*.md'  -not -name 'inputrc' 2> /dev/null ) ; do
+        find $dwierenga_completion_dir/* -maxdepth 1 -type f -not -name '*.md'  -not -name 'inputrc' 2> /dev/null | while read -r f ; do 
+#        for f in $( find $dwierenga_completion_dir/* -maxdepth 1 -type f -not -name '*.md'  -not -name 'inputrc' 2> /dev/null ) ; do
             . "$f"
         done
     fi
@@ -127,3 +129,4 @@ export SDKMAN_DIR="${HOME}/.sdkman"
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
 export SDKMAN_DIR="/Users/danwiere/.sdkman"
 [[ -s "/Users/danwiere/.sdkman/bin/sdkman-init.sh" ]] && source "/Users/danwiere/.sdkman/bin/sdkman-init.sh"
+
