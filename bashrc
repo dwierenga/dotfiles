@@ -108,10 +108,10 @@ if [ "$(command -v brew > /dev/null 2>&1; echo $?)" -eq 0 ] ; then
 fi
 
 # ~/.localconfig/ is always last in case I want to override anything
-for dwierenga_completion_dir in /etc/bash_completion.d /usr/local/etc/bash_completion.d  ~/.bash_completion.d  ~/.localconfig; do
+for dwierenga_completion_dir in /etc/bash_completion.d /usr/local/etc/bash_completion.d  "$HOME/.bash_completion.d"  "$HOME/.localconfig"; do
     if [ -d "${dwierenga_completion_dir}" ]; then
-        find $dwierenga_completion_dir/* -maxdepth 1 -type f -not -name '*.md'  -not -name 'inputrc' 2> /dev/null | while read -r f ; do 
-#        for f in $( find $dwierenga_completion_dir/* -maxdepth 1 -type f -not -name '*.md'  -not -name 'inputrc' 2> /dev/null ) ; do
+        #shellcheck disable=SC2044
+        for f in $( find "$dwierenga_completion_dir"/* -maxdepth 1 -type f -not -name '*.md'  -not -name 'inputrc' 2> /dev/null ) ; do
             . "$f"
         done
     fi
