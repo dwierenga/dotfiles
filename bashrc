@@ -53,7 +53,6 @@ elif [[ $(uname) == "Darwin" ]]; then
     alias ls='/bin/ls -lhFG'
     alias ll='/bin/ls -lAhFG'
     PATH=$PATH:${HOME}/oracle/instantclient_19_8
-    TNS_ADMIN=${HOME}/oracle/;  export TNS_ADMIN
     export SQLPATH="${HOME}/oracle"
 fi
 
